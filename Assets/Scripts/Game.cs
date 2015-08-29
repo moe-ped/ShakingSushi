@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
 	public float TimeBetweenSpawns;
 
 	private Spawnpoint[] Spawnpoints;
-	private float TimeSinceLastSpawn;
+	private float TimeSinceLastSpawn = 0;
 
 	private int _score;
 	public int Score
@@ -37,6 +37,7 @@ public class Game : MonoBehaviour
 		// Because why not ...
 		Spawnpoints = GetComponentsInChildren<Spawnpoint>();
 		Cursor.visible = false;
+		TimeSinceLastSpawn = TimeBetweenSpawns;
 	}
 
 	void Update ()
