@@ -10,7 +10,8 @@ public class Game : MonoBehaviour
 	public Transform IgnoreRacastGroup;
 	public Transform AllowRacastGroup;
 	public Text ScoreText;
-	public GameObject[] FoodPrefabs;
+	public GameObject[] PlatePrefabs;
+	public GameObject[] SushiPrefabs;
 	public float TimeBetweenSpawns;
 
 	private Spawnpoint[] Spawnpoints;
@@ -61,8 +62,14 @@ public class Game : MonoBehaviour
 		}
 		if (eligibleSpawnpoints.Count < 1)
 		{
+			Lose ();
 			return;
 		}
-		eligibleSpawnpoints [Random.Range (0, eligibleSpawnpoints.Count-1)].SpawnObject (FoodPrefabs[Random.Range(0, FoodPrefabs.Length-1)]);
+		eligibleSpawnpoints [Random.Range (0, eligibleSpawnpoints.Count-1)].SpawnObject (PlatePrefabs[Random.Range(0, PlatePrefabs.Length-1)]);
+	}
+
+	void Lose ()
+	{
+		Time.timeScale = 0;
 	}
 }
