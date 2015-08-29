@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using System;
 
 public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHandler, IEndDragHandler
 {
+	public Action GotDestroyed = () => {};
+
 	#region IDropHandler implementation
 
 	public void OnDrop (PointerEventData eventData)
@@ -43,4 +46,9 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBegin
 	}
 
 	#endregion
+
+	void OnDestroy ()
+	{
+		GotDestroyed ();
+	}
 }
