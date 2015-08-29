@@ -1,8 +1,14 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: b47fc280bf21c07469f2c48abd3c2d8a
 folderAsset: yes
 timeCreated: 1440845978
+=======
+guid: 1818add1106fc7b498ce2e2cb89ce546
+folderAsset: yes
+timeCreated: 1440847211
+>>>>>>> remotes/origin/feature/menu
 =======
 guid: 1818add1106fc7b498ce2e2cb89ce546
 folderAsset: yes
