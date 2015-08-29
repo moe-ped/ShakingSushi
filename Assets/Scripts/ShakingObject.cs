@@ -18,8 +18,11 @@ public class ShakingObject : MonoBehaviour
 	void Update () 
 	{
 		// Test
-		Speed *= (1 + Time.deltaTime/30);
-		Intensity *= (1+ Time.deltaTime/15);
+		if (Speed < 6)
+		{
+			Speed *= (1 + Time.deltaTime / 30);
+			Intensity *= (1 + Time.deltaTime / 15);
+		}
 		Shake ();
 	}
 
