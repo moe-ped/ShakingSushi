@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class BentoBox : MonoBehaviour {
+public class BentoBox : MonoBehaviour, IDropHandler 
+{
+	#region IDropHandler implementation
 
-	// Use this for initialization
-	void Start () {
-	
+	public void OnDrop (PointerEventData eventData)
+	{
+		Debug.Log ("dropped" + eventData.pointerDrag);
+		Destroy (eventData.pointerDrag.gameObject);
+		Game.Instance.Score++;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+	#endregion
 }

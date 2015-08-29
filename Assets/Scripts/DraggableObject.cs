@@ -2,13 +2,17 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler 
+public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHandler, IEndDragHandler
 {
-	#region IPointerClickHandler implementation
+	#region IDropHandler implementation
 
-	public void OnPointerClick (PointerEventData eventData)
+	public void OnDrop (PointerEventData eventData)
 	{
-		Debug.Log ("starting drag");
+		Debug.Log ("dropped " + gameObject.name + " on " + eventData.pointerCurrentRaycast.gameObject.name);
+		foreach (GameObject hov in eventData.hovered)
+		{
+			Debug.Log (hov.name);
+		}
 	}
 
 	#endregion
@@ -17,7 +21,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
 	public void OnBeginDrag (PointerEventData eventData)
 	{
-		Debug.Log ("starting drag");
+		transform.SetParent (Game.Instance.IgnoreRacastGroup);
 	}
 
 	#endregion
@@ -26,8 +30,16 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		Debug.Log ("being dragged");
 		transform.position = Input.mousePosition;
+	}
+
+	#endregion
+
+	#region IEndDragHandler implementation
+
+	public void OnEndDrag (PointerEventData eventData)
+	{
+		transform.SetParent (Game.Instance.AllowRacastGroup);
 	}
 
 	#endregion
