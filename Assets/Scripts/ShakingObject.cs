@@ -5,6 +5,8 @@ public class ShakingObject : MonoBehaviour
 {
 	public float Speed = 1;
 	public float Intensity = 1;
+    public float MaxSpeed = 6;
+    public float MaxIntensity = 30;
 
 	private Vector3 originalPosition;
 
@@ -18,8 +20,16 @@ public class ShakingObject : MonoBehaviour
 	void Update () 
 	{
 		// Test
-		Speed *= (1 + Time.deltaTime/30);
-		Intensity *= (1+ Time.deltaTime/15);
+        if (Speed < MaxSpeed)
+        {
+            Speed *= (1 + Time.deltaTime / 30);
+            if (Speed > MaxSpeed) Speed = MaxSpeed;
+        }
+        if (Intensity < MaxIntensity)
+        {
+            Intensity *= (1 + Time.deltaTime / 15);
+            if (Intensity > MaxIntensity) Intensity = MaxIntensity;
+        }
 		Shake ();
 	}
 
