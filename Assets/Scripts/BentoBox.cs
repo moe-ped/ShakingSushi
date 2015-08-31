@@ -8,9 +8,11 @@ public class BentoBox : MonoBehaviour, IDropHandler
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		Debug.Log ("dropped" + eventData.pointerDrag);
+		// Test
+		int type = eventData.pointerDrag.GetComponent<DraggableObject> ().Type;
+		Debug.Log (Game.Instance.SushiPrefabs[type].name);
+
 		Destroy (eventData.pointerDrag.gameObject);
-		Game.Instance.Score++;
 	}
 
 	#endregion

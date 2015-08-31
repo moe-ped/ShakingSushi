@@ -5,23 +5,10 @@ using System;
 
 // This means sushi. Do not use for anything else
 // TODO: rename
-public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHandler, IEndDragHandler
+public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
 	public Action<int> GotDestroyed = (int Type) => {};
     public int Type;
-
-	#region IDropHandler implementation
-
-	public void OnDrop (PointerEventData eventData)
-	{
-		Debug.Log ("dropped " + gameObject.name + " on " + eventData.pointerCurrentRaycast.gameObject.name);
-		foreach (GameObject hov in eventData.hovered)
-		{
-			Debug.Log (hov.name);
-		}
-	}
-
-	#endregion
 
 	#region IBeginDragHandler implementation
 

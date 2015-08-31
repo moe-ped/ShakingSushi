@@ -13,12 +13,13 @@ public class Game : MonoBehaviour
 	public GameObject[] PlatePrefabs;
 	public GameObject[] SushiPrefabs;
 	public float TimeBetweenSpawns;
+	public List<List<int>> Combinations = new List<List<int>>();
 
 	private Spawnpoint[] Spawnpoints;
     [SerializeField]
     private UISpawnpoint UISpawnpoint;
 	private float TimeSinceLastSpawn = 0;
-    private Dictionary<int, int> ExistingSushi = new Dictionary<int, int>();
+    private List<int> ExistingSushi = new List<int>();
 
 	private int _score;
 	public int Score
@@ -93,7 +94,7 @@ public class Game : MonoBehaviour
         int[] types = new int[9];
         for (int i = 0; i < types.Length; i++ )
         {
-            types[i] = Random.Range(0, SushiPrefabs.Length - 1);
+			types[i] = Random.Range (0, SushiPrefabs.Length-1);
         }
         plateComponent.SpawnSushi(types);
 	}
@@ -103,26 +104,51 @@ public class Game : MonoBehaviour
         GameObject uiPlate = UISpawnpoint.SpawnObject(PlatePrefabs[1]);
         var uiPlateComponent = uiPlate.GetComponent<UIPlate>();
         // Test
-        int[] types = new int[6];
-        for (int i = 0; i < types.Length; i++)
-        {
-            types[i] = Random.Range(0, SushiPrefabs.Length - 1);
-        }
+		List<int> spawnableSushi = new List<int> (ExistingSushi);
+		int[] types = new int[2];
+		for (int i = 0; i < types.Length; i++ )
+		{
+			if (spawnableSushi.Count < 1) break;
+			int index = Random.Range (0, spawnableSushi.Count-1);
+			types[i] = spawnableSushi[index];
+			spawnableSushi.RemoveAt (index);
+		}
         uiPlateComponent.SpawnSushi(types);
+		List<int> newCombination = new List<int>(types);
+		Combinations.Add (newCombination);
     }
 
     public void OnSushiSpawned (int type)
     {
         // Do stuff
-        if (!ExistingSushi.ContainsKey(type)) ExistingSushi.Add(type, 0);
-        ExistingSushi[type]++;
+        ExistingSushi.Add(type);
     }
 
     public void OnSushiDestroyed (int type)
     {
         // Do stuff
-        if (!ExistingSushi.ContainsKey(type)) Debug.LogError ("imaginary sushi destroyed. Dafuq?!");
-        ExistingSushi[type]--;
+        ExistingSushi.Remove(type);
+		// Test if part of combination
+		if (Combinations.Count > 0 && Combinations[0].Contains(type))
+		{
+			// Success
+			Debug.Log ("good job!");
+			// Destroy sushi on ui plate
+			UISpawnpoint.DestroySushi(type);
+			// Remove from List
+			Combinations[0].Remove(type);
+			// Check if list completed
+			if (Combinations[0].Count < 1)
+			{
+				Combinations.RemoveAt(0);
+				Score++;
+			}
+		}
+		else
+		{
+			// Fail
+			Debug.Log ("meeep!");
+		}
     }
 
 	void Lose ()

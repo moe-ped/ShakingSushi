@@ -20,7 +20,8 @@ public class Plate : MonoBehaviour
             Game.Instance.OnSushiSpawned(types[i]);
 			sushi.transform.SetParent (spawnpoint);
 			sushi.transform.localScale = Vector3.one;
-			var draggableObject = sushi.GetComponent<DraggableObject>();
+			var draggableObject = sushi.AddComponent<DraggableObject>();
+			draggableObject.Type = types[i];
 			draggableObject.GotDestroyed = (type) => 
 			{ 
 				ChildCount--;
