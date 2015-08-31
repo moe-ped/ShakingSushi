@@ -34,9 +34,13 @@ public class Options : MonoBehaviour {
 			PlayerPrefs.SetFloat ("settingsVolume", sliderValue);
 			AudioListener.volume = sliderValue;
 		}
+	}
 
-
-
+	public void resetHighscore(){
+		if (PlayerPrefs.HasKey ("highscore")) {
+			PlayerPrefs.DeleteKey("highscore");
+			GameObject.Find("HighscoreTxt").GetComponent<Text>().text = "No Score yet!";
+		}
 	}
 
 }
