@@ -3,9 +3,12 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using System;
 
+// This means sushi. Do not use for anything else
+// TODO: rename
 public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHandler, IEndDragHandler
 {
-	public Action GotDestroyed = () => {};
+	public Action<int> GotDestroyed = (int Type) => {};
+    public int Type;
 
 	#region IDropHandler implementation
 
@@ -49,6 +52,6 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IDropHandler, IBegin
 
 	void OnDestroy ()
 	{
-		GotDestroyed ();
+		GotDestroyed (Type);
 	}
 }
