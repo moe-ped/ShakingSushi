@@ -49,8 +49,14 @@ public class MenuManager : MonoBehaviour {
 			MenuBtnPanel.SetActive (false);
 			HighscorePanel.SetActive (true);
 
+			var htxText = GameObject.Find ("HighscoreTxt").GetComponent<Text> ();
+			htxText.fontSize = 30;
+
 			if (PlayerPrefs.HasKey ("highscore")) {
-				GameObject.Find ("HighscoreTxt").GetComponent<Text> ().text = PlayerPrefs.GetInt ("highscore").ToString ();
+
+				htxText.text = PlayerPrefs.GetInt ("highscore").ToString();
+				htxText.fontSize = 30;
+
 			}
 
 		} 
@@ -98,8 +104,7 @@ public class MenuManager : MonoBehaviour {
 		else if (btn.gameObject.name == "DeleteHighscoreBtn") {
 			DeleteHighscorePanel.SetActive(false);
 			HighscorePanel.SetActive(true);
-
-			//GameObject.Find ("HighscoreTxt").GetComponent<Text> ().text = 
+			 
 
 		} else if (btn.gameObject.name == "AbortDeleteHighscoreBtn") {
 			DeleteHighscorePanel.SetActive(false);
