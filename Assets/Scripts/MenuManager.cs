@@ -7,10 +7,11 @@ public class MenuManager : MonoBehaviour {
 	public GameObject btn;
 	public GameObject LogoPanel;
 	public GameObject MenuBtnPanel;
-	public GameObject ConfirmPanel;
-	public GameObject ComingSoonPanel;
+	public GameObject ConfirmExitPanel;
+	public GameObject HighscorePanel;
 	public GameObject SettingsPanel;
 	public GameObject MenuAudio;
+	public GameObject DeleteHighscorePanel;
 
 	private AudioSource[] audioSources;
 	private AudioSource menuMusic;
@@ -46,7 +47,12 @@ public class MenuManager : MonoBehaviour {
 		else if (btn.gameObject.name == "HighscoreBtn") {
 			Debug.Log ("HighscoreBtn pressed");
 			MenuBtnPanel.SetActive (false);
-			ComingSoonPanel.SetActive (true);
+			HighscorePanel.SetActive (true);
+
+			if (PlayerPrefs.HasKey ("highscore")) {
+				GameObject.Find ("HighscoreTxt").GetComponent<Text> ().text = PlayerPrefs.GetInt ("highscore").ToString ();
+			}
+
 		} 
 
 		// Show settings panel when clicking the options btn
@@ -54,14 +60,14 @@ public class MenuManager : MonoBehaviour {
 			Debug.Log ("SettingsBtn pressed");
 			MenuBtnPanel.SetActive (false);
 			SettingsPanel.SetActive (true);
-			GameObject.Find("VolumeSlider").GetComponent<Slider>().value = AudioListener.volume;
+			GameObject.Find ("VolumeSlider").GetComponent<Slider> ().value = AudioListener.volume;
 		} 
 
 		// Show exit confirmation panel when clicking the exit btn
 		else if (btn.gameObject.name == "ExitBtn") {
 			Debug.Log ("Exit Btn pressed");
 			MenuBtnPanel.SetActive (false);
-			ConfirmPanel.SetActive (true);
+			ConfirmExitPanel.SetActive (true);
 		} 
 
 		// Close game when player confirms the confirmation panel via the Yes btn
@@ -73,26 +79,32 @@ public class MenuManager : MonoBehaviour {
 		// Abort the game exit when the player clicks the No btn
 		else if (btn.gameObject.name == "NoBtn") {
 			Debug.Log ("Exit aborted");
-			ConfirmPanel.SetActive (false);
+			ConfirmExitPanel.SetActive (false);
 			MenuBtnPanel.SetActive (true);
 		} 
 
-		// Set cursor to visible and go to main menu when clicking the main menu button ingame
-		// TODO: - this should not be part of the MenuManager script LOL, 
-		else if (btn.gameObject.name == "MainMenuBtn") {
-			Cursor.visible = true;
-			Application.LoadLevel (0);
-		} 
 
-		// Disable the coming soon panel and show the Menu panel
+		// Disable the highscore soon panel and show the Menu panel
 		else if (btn.gameObject.name == "BackBtn") {
-			ComingSoonPanel.SetActive (false);
+			HighscorePanel.SetActive (false);
 			SettingsPanel.SetActive (false);
 			MenuBtnPanel.SetActive (true);
+		} else if (btn.gameObject.name == "ApplyBtn") {
+			PlayerPrefs.Save ();
+		} else if (btn.gameObject.name == "ResetHighscoreBtn") {
+			HighscorePanel.SetActive (false);
+			DeleteHighscorePanel.SetActive (true);
 		}
+		else if (btn.gameObject.name == "DeleteHighscoreBtn") {
+			DeleteHighscorePanel.SetActive(false);
+			HighscorePanel.SetActive(true);
 
-		else if (btn.gameObject.name == "ApplyBtn") {
-			PlayerPrefs.Save();
+			//GameObject.Find ("HighscoreTxt").GetComponent<Text> ().text = 
+
+		} else if (btn.gameObject.name == "AbortDeleteHighscoreBtn") {
+			DeleteHighscorePanel.SetActive(false);
+			HighscorePanel.SetActive(true);
+
 		}
 	}
 }
